@@ -1,0 +1,214 @@
+/* General Styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.header {
+    background-color: #5078a0; /* Lighter navy blue */
+    color: white;
+    padding: 5px; /* Reduced padding for height */
+    text-align: left; /* Align title to the left */
+    height: 45px;
+}
+
+.container {
+    display: flex;
+    height: calc(100vh - 50px);
+    border-radius: 15px;
+}
+
+/* Menu Styling */
+.menu {
+    background-color: #d3d3d3; /* Light grey for the menu */
+    width: 5%;
+    padding: 20px;
+}
+
+.menu-item {
+    background-color: #d3d3d3; /* Light grey for the menu */
+    width: 5%;
+    padding: 10px;
+    cursor: pointer;
+    color: #a9a9a9;
+    user-select:none ;
+}
+
+.menu ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.menu li {
+    margin-bottom: 20px;
+    font-size: 18px;
+    color: #333;
+}
+
+/* Main Content Styling */
+.main-content {
+    background-color: #f0f0f0; /* Grey for the background */
+    width: 30%;
+    padding: 20px;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Result Section */
+.result-section {
+    height: 60%; /* 50% of the section */
+    background-color: #d3d3d3; /* Light grey for result section */
+    padding: 10px;
+    margin-bottom: 20px;
+}
+.hidden{
+    display: none;
+}
+
+.result-section h3 {
+    margin-bottom: 10px;
+    color: #4f4f4f; /* Dark grey for headings */
+    font-size: 16px;
+    border-radius: 10px;
+}
+
+#resultText {
+    background-color: white;
+    padding: 10px;
+    border: 1px solid #ccc;
+    height: 100px;
+    overflow-y: auto;
+    border-radius: 10px;
+}
+
+/* Talk to Assistant Section */
+.talk-section {
+    height: 60%; /* 50% of the section */
+    background-color: #d3d3d3; /* Light grey for talk section */
+    padding: 10px;
+    border-radius: 10px;
+}
+.talk-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 16px;
+    color: #4f4f4f;
+}
+.chart-container {
+    margin-bottom: 20px;
+    background-color: #d3d3d3; /* Light grey for talk section */
+    padding: 10px;
+    flex-grow: 1;
+    height: auto;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+    box-sizing: border-box;
+    min-height: 150px;
+}
+
+
+textarea {
+    width: 100%;
+    height: 60px;
+    padding: 10px;
+    background-color: white;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+}
+
+.controls button {
+    margin-right: 10px;
+    padding: 10px;
+    background-color: #2b2d42;
+    color: white;
+    border: none;
+    cursor: pointer;
+    display: flex;
+}
+
+.controls button:hover {
+    background-color: #4b4f77;
+}
+
+/* Charts Section */
+.charts-section {
+    width: 65%;
+    display: flex;
+    flex-direction: column;
+    background-color: #a9a9a9; /* Slightly darker grey */
+    padding: 10px;
+    height: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+canvas {
+    width: 100%;
+    height: 90%;
+    max-height: 100%;
+}
+
+#barChart, #pieChart {
+    margin-bottom: 20px;
+    flex-grow: 1;
+   
+}
+.chart-heading{
+font-size: 18px;
+margin-bottom: 5px;
+margin: 0;
+white-space: nowrap;
+overflow: visible;
+}
+.download-button{
+    display: block;
+    margin: 0 auto 20px;
+    padding: 10px 20px;
+    background-color: #5078a0;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 10px;
+
+}
+.controls{
+display: flex;
+align-items: center;
+flex-wrap: nowrap;
+}
+.talk-container{
+    display: flex;
+    align-items: center;
+width: 200px;
+margin: 10px;
+}
+.button-image{
+margin-left: 10px;
+}
+.submit-button{
+    display: block;
+    padding: 10px 15px;
+    background-color: #5078a0;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 10px;
+    justify-content: space-between;
+}
+#statusText{
+    font-size: 16px;
+    white-space: nowrap;
+    flex-grow: 1;
+
+}
+
+

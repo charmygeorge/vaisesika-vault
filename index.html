@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vaisesika Vault</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="header">
+        <h3>Vaisesika Vault</h3>
+    </header>
+    <div class="container">
+        <div class="menu">
+            <ul>
+            <li>
+                <a href="#"><img src="images/chart.png" alt=Charts></a>
+                
+            </li>
+                <li>
+                    <a href="#"><img src="images/powerbi.png" alt=Charts></a>
+                   
+                </li>
+            </ul>
+        </div>
+        <section class="main-content">
+            <div class="result-section" style="border-radius: 10px;">
+                <h3>Results</h3>
+                <p id="resultText">No results yet.</p>
+                <button id="listenBtn" class="submit-button" style="margin-left: 300px;">Listen</button>
+            </div>
+            <div class="talk-section">
+                <div class="talk-header">
+                <h3>Talk to Assistant</h3>
+                <button id="submitBtn" class="submit-button" >Submit</button>
+                </div>
+                <textarea id="transcript" placeholder="Speak something..." style="width: 95%; border-radius: 10px; height: 90px;"></textarea>
+               <div class="talk-container">
+                <div class="controls">
+                    <span id="statusText" class="status-text" >Click to Speak....</span>
+                 </div>
+                <div class="controls">
+                    <img id="recordBtn" class="button-image" src="images/mic.png">
+                    <img id="pauseBtn" class="button-image hidden" src="images/pause.jpg">
+                    <img id="resetBtn" class="button-image hidden" src="images/reset.jpg">                    
+                </div>
+                </div>
+            </div>
+        </section>       
+
+        <section class="charts-section">
+            <button id="downloadBtn" class="download-button">Download Chart</button>
+            <div class="chart-container" id="barChartContainer" style="border-radius: 10px;">
+                <h3 class="chart-heading">Bar Chart</h3>
+                <canvas id="barChart"></canvas>
+            </div>
+            <div class="chart-container" id="pieChartContainer" style="border-radius: 10px;">
+                <h3 class="chart-heading">Pie Chart</h3>
+                <canvas id="pieChart"></canvas>
+            </div>
+        </section>
+        
+        <section class="powerbi-section" id="powerBiSection" style="display: none;">
+            <h3>Power BI Content</h3>
+            <p>Your Power BI content goes here.</p>
+        </section>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
+</body>
+</html>
