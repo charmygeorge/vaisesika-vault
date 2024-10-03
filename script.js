@@ -13,6 +13,7 @@ const powerBiSection = document.getElementById('powerBiSection');
 const powerBiMenuItem = document.querySelector('.menu li:nth-child(2)'); // Assuming Power BI is the second menu item
 const chartsMenuItem = document.querySelector('.menu li:first-child'); // Assuming Charts is the first menu item
 
+let barChart, pieChart, lineChart;
 // Show charts section
 chartsMenuItem.addEventListener('click', function () {
     chartsSection.style.display = 'flex'; // or 'block', depending on your layout
@@ -89,20 +90,24 @@ powerBiMenuItem.addEventListener('click', function () {
     });
 
     // Handle submit button click
-    submitBtn.addEventListener('click', function () {
-        const apiResponse= callAPI(transcriptArea.value);
-        renderCharts(apiResponse.data);
+    submitBtn.addEventListener('click', async function () {
+        const apiResponse= await callAPI(transcriptArea.value);
+        if(apiResponse){
+        renderCharts(apiResponse.data,apiResponse.type);
+        }
     });
 
     function callAPI(recordedText) {
-        const apiUrl = 'http://172.18.71.12:8000/chartData'; // Replace with actual API endpoint
-            // Make the POST request to the API
-        fetch(apiUrl, {
+      // const apiUrl = "https://071bed5c-249b-4e3c-8727-862bdd9f4fed.mock.pstmn.io/test1"; // Replace with actual API endpoint
+      const apiUrl = "https://dd85e9c5-0cd7-425c-ab43-215f7f6007ca.mock.pstmn.io/test3";   
+        // Make the POST request to the API
+        return fetch(apiUrl, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({ query: recordedText }) // Send the recorded text in the request body
+            
         })
         .then(response => response.json())
         .then(data => {
@@ -111,6 +116,7 @@ powerBiMenuItem.addEventListener('click', function () {
     
             // Update the result section in the UI
             document.getElementById('resultText').innerText = result;
+            return data;
 
         })
         .catch(error => {
@@ -120,20 +126,28 @@ powerBiMenuItem.addEventListener('click', function () {
 
     // Handle listen button click
     listenBtn.addEventListener('click', function () {
-        const utterance = new SpeechSynthesisUtterance(resultText.text);
+        const listenText= document.getElementById('resultText').innerText
+        const utterance = new SpeechSynthesisUtterance(listenText);
         window.speechSynthesis.speak(utterance);
     });
 
     // Render charts
-        function renderCharts(data) {
+        function renderCharts(data,chartType) {
         const ctxBar = document.getElementById('barChart').getContext('2d');
         const ctxPie = document.getElementById('pieChart').getContext('2d');
+        const ctxLine = document.getElementById('lineChart').getContext('2d');
 
         const labels = data.map(item => item.label);
         const values = data.map(item => item.Value);
+        
 
+
+if(chartType===1){
+    document.getElementById('barChartContainer').style.display='block';
+    document.getElementById('pieChartContainer').style.display='block';
+    document.getElementById('lineChartContainer').style.display='none';
         // Bar Chart
-        const barChart = new Chart(ctxBar, {
+        barChart = new Chart(ctxBar, {
             type: 'bar',
             data: {
                 labels: labels,
@@ -158,7 +172,7 @@ powerBiMenuItem.addEventListener('click', function () {
         });
 
         // Pie Chart
-        const pieChart=new Chart(ctxPie, {
+         pieChart=new Chart(ctxPie, {
             type: 'pie',
             data: {
                 labels: labels,
@@ -175,38 +189,82 @@ powerBiMenuItem.addEventListener('click', function () {
                 devicePixelRatio:window.devicePixelRatio*2
             }
         });
-        document.getElementById('downloadBtn').addEventListener('click', function() {
-            // Ensure the charts have rendered before trying to download
-            if (barChart && pieChart) {
-                const barChartImage = barChart.toBase64Image();
-                const pieChartImage = pieChart.toBase64Image();
-                createPDF(barChartImage, pieChartImage);
+    }
+    else if(chartType===2)
+    {
+    document.getElementById('barChartContainer').style.display='none';
+    document.getElementById('pieChartContainer').style.display='none';
+    document.getElementById('lineChartContainer').style.display='block';
+        // Line Chart
+        lineChart = new Chart(ctxLine, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Trend',
+                    data: values,
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 2,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
             }
         });
+    }
+    
+   
+    document.getElementById('downloadBtn').addEventListener('click', function() {
+    debugger;
+        let barChartImage, pieChartImage, lineChartImage;
+        if (typeof barChart !== 'undefined' && barChart !== null) {
+            barChartImage = barChart.toBase64Image();
+        }
+        
+        if (typeof pieChart !== 'undefined' && pieChart !== null) {
+            pieChartImage = pieChart.toBase64Image();
+        }
+        
+        if (typeof lineChart !== 'undefined' && lineChart !== null) {
+            lineChartImage = lineChart.toBase64Image();
+        }
+    
+        createPDF(barChartImage, pieChartImage, lineChartImage);
+    });
     }
 
    
     
     // Function to create PDF with charts
-    function createPDF(barChartImage, pieChartImage) {
+    function createPDF(barChartImage, pieChartImage,lineChartImage) {
         const pdf = new jsPDF();
-        
         pdf.setFontSize(16);
-        pdf.text('Report',100,10);
+        pdf.text('Report', 100, 10);
         pdf.setFontSize(12);
-        pdf.text('Query:',10,20);
-        const queryTexts= document.getElementById('transcript').value;
-        pdf.text(queryTexts,10,30);
+        pdf.text('Query:', 10, 20);
+        const queryTexts = document.getElementById('transcript').value;
+        pdf.text(queryTexts, 10, 30);
         pdf.setFontSize(12);
-        pdf.text('Result:',10,40);
-        const resultTexts= document.getElementById('resultText').innerText;
-        pdf.text(resultTexts,10,50);
-        // Add Bar Chart
-        pdf.addImage(barChartImage, 'PNG', 10, 80, 180, 80);
-        
-        // Add Pie Chart
-        pdf.addImage(pieChartImage, 'PNG', 10, 170, 180, 80);
-        
+        pdf.text('Result:', 10, 40);
+        const resultTexts = document.getElementById('resultText').innerText;
+        pdf.text(resultTexts, 10, 50);
+    
+        // Add charts based on their presence
+        if (barChartImage) 
+            pdf.addImage(barChartImage, 'PNG', 10, 80, 180, 80);
+        if (pieChartImage)
+             pdf.addImage(pieChartImage, 'PNG', 10, 170, 180, 80);
+        if (lineChartImage) 
+            pdf.addImage(lineChartImage, 'PNG', 10, 80, 180, 80); // Adjust y position as needed
+    
         // Save PDF
         pdf.save('charts.pdf');
     }
