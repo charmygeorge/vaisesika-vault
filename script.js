@@ -10,13 +10,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const chartsSection = document.querySelector('.charts-section');
 const powerBiSection = document.getElementById('powerBiSection');
-const powerBiMenuItem = document.querySelector('.menu li:nth-child(2)'); // Assuming Power BI is the second menu item
-const chartsMenuItem = document.querySelector('.menu li:first-child'); // Assuming Charts is the first menu item
+const powerBiMenuItem = document.querySelector('.menu li:nth-child(2)'); 
+const chartsMenuItem = document.querySelector('.menu li:first-child'); 
 
 let barChart, pieChart, lineChart;
 // Show charts section
 chartsMenuItem.addEventListener('click', function () {
-    chartsSection.style.display = 'flex'; // or 'block', depending on your layout
+    chartsSection.style.display = 'flex'; 
     powerBiSection.style.display = 'none';
 });
 
@@ -34,7 +34,7 @@ powerBiMenuItem.addEventListener('click', function () {
     if ('webkitSpeechRecognition' in window) {
         recognition = new webkitSpeechRecognition();
         recognition.continuous = false;
-        recognition.interimResults = true; // Show text simultaneously
+        recognition.interimResults = true; 
         recognition.lang = 'en-US';
 
         recognition.onstart = function () {
@@ -91,14 +91,20 @@ powerBiMenuItem.addEventListener('click', function () {
 
     // Handle submit button click
     submitBtn.addEventListener('click', async function () {
+        document.getElementById('spinner').style.display = 'block';
+    document.getElementById('spinner-overlay').style.display = 'block';
+    document.getElementById('submitBtn').disabled = true;
         const apiResponse= await callAPI(transcriptArea.value);
         if(apiResponse){
+            document.getElementById('spinner').style.display = 'none';
+    document.getElementById('spinner-overlay').style.display = 'none';
+    document.getElementById('submitBtn').disabled = false;
         renderCharts(apiResponse.data,apiResponse.type);
         }
     });
 
     function callAPI(recordedText) {
-       const apiUrl="https://b21c74c3-b0ea-4373-b485-35678a15a55b.mock.pstmn.io/test";// Make the POST request to the API
+       const apiUrl="https://b21c74c3-b0ea-4373-b485-35678a15a55b.mock.pstmn.io/test";
         return fetch(apiUrl, {
             method: 'POST',
             headers: {
@@ -109,10 +115,7 @@ powerBiMenuItem.addEventListener('click', function () {
         })
         .then(response => response.json())
         .then(data => {
-            // Assuming the result format is the same as the mock API
             const result = data.text;
-    
-            // Update the result section in the UI
             document.getElementById('resultText').innerText = result;
             return data;
 
@@ -226,11 +229,9 @@ powerBiMenuItem.addEventListener('click', function () {
                 }
             }
         });
-    }
-    
+    }   
    
     document.getElementById('downloadBtn').addEventListener('click', function() {
-    debugger;
         let barChartImage, pieChartImage, lineChartImage;
         if (typeof barChart !== 'undefined' && barChart !== null) {
             barChartImage = barChart.toBase64Image();
@@ -264,13 +265,12 @@ powerBiMenuItem.addEventListener('click', function () {
         const resultTexts = document.getElementById('resultText').innerText;
         pdf.text(resultTexts, 10, 50);
     
-        // Add charts based on their presence
         if (barChartImage) 
             pdf.addImage(barChartImage, 'PNG', 10, 80, 180, 80);
         if (pieChartImage)
              pdf.addImage(pieChartImage, 'PNG', 10, 170, 180, 80);
         if (lineChartImage) 
-            pdf.addImage(lineChartImage, 'PNG', 10, 80, 180, 80); // Adjust y position as needed
+            pdf.addImage(lineChartImage, 'PNG', 10, 80, 180, 80);
     
         // Save PDF
         pdf.save('charts.pdf');
