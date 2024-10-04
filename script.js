@@ -98,9 +98,7 @@ powerBiMenuItem.addEventListener('click', function () {
     });
 
     function callAPI(recordedText) {
-      // const apiUrl = "https://071bed5c-249b-4e3c-8727-862bdd9f4fed.mock.pstmn.io/test1"; // Replace with actual API endpoint
-      const apiUrl = "https://dd85e9c5-0cd7-425c-ab43-215f7f6007ca.mock.pstmn.io/test3";   
-        // Make the POST request to the API
+       const apiUrl="https://b21c74c3-b0ea-4373-b485-35678a15a55b.mock.pstmn.io/test";// Make the POST request to the API
         return fetch(apiUrl, {
             method: 'POST',
             headers: {
@@ -138,7 +136,7 @@ powerBiMenuItem.addEventListener('click', function () {
         const ctxLine = document.getElementById('lineChart').getContext('2d');
 
         const labels = data.map(item => item.label);
-        const values = data.map(item => item.Value);
+        const values = data.map(item => item.value);
         
 
 
