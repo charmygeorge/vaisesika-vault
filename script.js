@@ -137,10 +137,19 @@ powerBiMenuItem.addEventListener('click', function () {
 
         const labels = data.map(item => item.label);
         const values = data.map(item => item.value);
+        if (typeof barChart !== 'undefined' && barChart !== null) {
+            barChart.destroy();
+        }
         
+        if (typeof pieChart !== 'undefined' && pieChart !== null) {
+            pieChart.destroy();
+        }
+        
+        if (typeof lineChart !== 'undefined' && lineChart !== null) {
+            lineChart.destroy();
+        }
 
-
-if(chartType===1){
+    if(chartType===1){
     document.getElementById('barChartContainer').style.display='block';
     document.getElementById('pieChartContainer').style.display='block';
     document.getElementById('lineChartContainer').style.display='none';
