@@ -231,6 +231,14 @@ margin-left: 10px;
     transform: translate(-50%, -50%);
     z-index: 9999; 
 }
+@keyframes spin{
+    0%{
+transform:rotate(0deg);
+    }
+    100%{
+transform: rotate(360deg);
+    }
+}
 
 .spinner-overlay {
     position: fixed;
